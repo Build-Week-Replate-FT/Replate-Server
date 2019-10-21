@@ -40,15 +40,16 @@ public class UseremailServiceImpl implements UseremailService
     public List<Useremail> findByUserName(String username,
                                           boolean isAdmin)
     {
-        Authentication authentication = SecurityContextHolder.getContext()
-                                                             .getAuthentication();
-        if (username.equalsIgnoreCase(authentication.getName().toLowerCase()) || isAdmin)
-        {
-            return useremailrepos.findAllByUser_Username(username.toLowerCase());
-        } else
-        {
-            throw new ResourceNotFoundException(authentication.getName() + " not authorized to make change");
-        }
+//        Authentication authentication = SecurityContextHolder.getContext()
+//                                                             .getAuthentication();
+//        if (username.equalsIgnoreCase(authentication.getName().toLowerCase()) || isAdmin)
+//        {
+//            return useremailrepos.findAllByUser_Username(username.toLowerCase());
+//        } else
+//        {
+//            throw new ResourceNotFoundException(authentication.getName() + " not authorized to make change");
+//        }
+        return null;
     }
 
 
@@ -64,7 +65,7 @@ public class UseremailServiceImpl implements UseremailService
             if (useremailrepos.findById(id)
                               .get()
                               .getUser()
-                              .getUsername()
+                              .getEmail()
                               .equalsIgnoreCase(authentication.getName()) || isAdmin)
             {
                 useremailrepos.deleteById(id);
@@ -91,7 +92,7 @@ public class UseremailServiceImpl implements UseremailService
             if (useremailrepos.findById(useremailid)
                               .get()
                               .getUser()
-                              .getUsername()
+                              .getEmail()
                               .equalsIgnoreCase(authentication.getName()) || isAdmin)
             {
                 Useremail useremail = findUseremailById(useremailid);

@@ -23,32 +23,63 @@ public class User extends Auditable
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userid;
 
+    private String userType;
+
+    @Email
     @Column(nullable = false,
             unique = true)
-    private String username;
+    private String email;
 
     @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-
-    @Column(nullable = false,
-            unique = true)
-    @Email
-    private String primaryemail;
 
     @OneToMany(mappedBy = "user",
                cascade = CascadeType.ALL)
     @JsonIgnoreProperties("user")
     private List<UserRoles> userroles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",
+    private String name;
+    private String address;
+    private String city;
+    private String state;
+    private String zip;
+    private String website;
+
+    @OneToMany(mappedBy = "volunteer",
                cascade = CascadeType.ALL,
                orphanRemoval = true)
     @JsonIgnoreProperties("user")
-    private List<Useremail> useremails = new ArrayList<>();
+    private List<Pickup> volunteerpickups = new ArrayList<>();
+
+    @OneToMany(mappedBy = "business",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonIgnoreProperties("user")
+    private List<Pickup> businesspickups = new ArrayList<>();
 
     public User()
     {
+    }
+
+    public User(String userType, @Email String email, String password, List<UserRoles> userroles, String name, String address, String city, String state, String zip, String website, List<Pickup> volunteerpickups, List<Pickup> businesspickups)
+    {
+        this.userType = userType;
+        setEmail(email);
+        setPassword(password);
+        for (UserRoles ur : userroles)
+        {
+            ur.setUser(this);
+        }
+        this.userroles = userroles;
+        this.name = name;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.website = website;
+        this.volunteerpickups=volunteerpickups;
+        this.businesspickups = businesspickups;
     }
 
     public User(String username,
@@ -56,14 +87,8 @@ public class User extends Auditable
                 String primaryemail,
                 List<UserRoles> userRoles)
     {
-        setUsername(username);
-        setPassword(password);
-        this.primaryemail = primaryemail;
-        for (UserRoles ur : userRoles)
-        {
-            ur.setUser(this);
-        }
-        this.userroles = userRoles;
+
+
     }
 
     public long getUserid()
@@ -76,36 +101,20 @@ public class User extends Auditable
         this.userid = userid;
     }
 
-    public String getUsername()
+    public String getEmail()
     {
-        if (username == null) // this is possible when updating a user
+        if (email == null) // this is possible when updating a user
         {
             return null;
         } else
         {
-            return username.toLowerCase();
+            return email.toLowerCase();
         }
     }
 
-    public void setUsername(String username)
+    public void setEmail(String email)
     {
-        this.username = username.toLowerCase();
-    }
-
-    public String getPrimaryemail()
-    {
-        if (primaryemail == null) // this is possible when updating a user
-        {
-            return null;
-        } else
-        {
-            return primaryemail.toLowerCase();
-        }
-    }
-
-    public void setPrimaryemail(String primaryemail)
-    {
-        this.primaryemail = primaryemail.toLowerCase();
+        this.email = email.toLowerCase();
     }
 
     public String getPassword()
@@ -134,14 +143,24 @@ public class User extends Auditable
         this.userroles = userroles;
     }
 
-    public List<Useremail> getUseremails()
+    public List<Pickup> getVolunteerpickups()
     {
-        return useremails;
+        return volunteerpickups;
     }
 
-    public void setUseremails(List<Useremail> useremails)
+    public void setVolunteerpickups(List<Pickup> volunteerpickups)
     {
-        this.useremails = useremails;
+        this.volunteerpickups = volunteerpickups;
+    }
+
+    public List<Pickup> getBusinesspickups()
+    {
+        return businesspickups;
+    }
+
+    public void setBusinesspickups(List<Pickup> businesspickups)
+    {
+        this.businesspickups = businesspickups;
     }
 
     @JsonIgnore
@@ -160,9 +179,93 @@ public class User extends Auditable
         return rtnList;
     }
 
+    public String getUserType()
+    {
+        return userType;
+    }
+
+    public void setUserType(String userType)
+    {
+        this.userType = userType;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getAddress()
+    {
+        return address;
+    }
+
+    public void setAddress(String address)
+    {
+        this.address = address;
+    }
+
+    public String getCity()
+    {
+        return city;
+    }
+
+    public void setCity(String city)
+    {
+        this.city = city;
+    }
+
+    public String getState()
+    {
+        return state;
+    }
+
+    public void setState(String state)
+    {
+        state = state;
+    }
+
+    public String getZip()
+    {
+        return zip;
+    }
+
+    public void setZip(String zip)
+    {
+        this.zip = zip;
+    }
+
+    public String getWebsite()
+    {
+        return website;
+    }
+
+    public void setWebsite(String website)
+    {
+        this.website = website;
+    }
+
     @Override
     public String toString()
     {
-        return "User{" + "userid=" + userid + ", username='" + username + '\'' + ", password='" + password + '\'' + ", primaryEmail='" + primaryemail + '\'' + ", userroles=" + userroles + ", useremails=" + useremails + '}';
+        return "User{" +
+                "userid=" + userid +
+                ", userType='" + userType + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", userroles=" + userroles +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                ", website='" + website + '\'' +
+                ", volunteerpickups=" + volunteerpickups +
+                ", businesspickups=" + businesspickups +
+                '}';
     }
 }

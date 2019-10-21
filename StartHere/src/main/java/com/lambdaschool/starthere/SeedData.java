@@ -17,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Locale;
 
-@Transactional
-@Component
+//@Transactional
+//@Component
 public class SeedData implements CommandLineRunner
 {
     @Autowired
@@ -51,12 +51,12 @@ public class SeedData implements CommandLineRunner
                            "password",
                            "admin@lambdaschool.local",
                            admins);
-        u1.getUseremails()
-          .add(new Useremail(u1,
-                             "admin@email.local"));
-        u1.getUseremails()
-          .add(new Useremail(u1,
-                             "admin@mymail.local"));
+//        u1.getUseremails()
+//          .add(new Useremail(u1,
+//                             "admin@email.local"));
+//        u1.getUseremails()
+//          .add(new Useremail(u1,
+//                             "admin@mymail.local"));
 
         userService.save(u1);
 
@@ -70,15 +70,15 @@ public class SeedData implements CommandLineRunner
                            "1234567",
                            "cinnamon@lambdaschool.local",
                            datas);
-        u2.getUseremails()
-          .add(new Useremail(u2,
-                             "cinnamon@mymail.local"));
-        u2.getUseremails()
-          .add(new Useremail(u2,
-                             "hops@mymail.local"));
-        u2.getUseremails()
-          .add(new Useremail(u2,
-                             "bunny@email.local"));
+//        u2.getUseremails()
+//          .add(new Useremail(u2,
+//                             "cinnamon@mymail.local"));
+//        u2.getUseremails()
+//          .add(new Useremail(u2,
+//                             "hops@mymail.local"));
+//        u2.getUseremails()
+//          .add(new Useremail(u2,
+//                             "bunny@email.local"));
         userService.save(u2);
 
         // user
@@ -89,9 +89,9 @@ public class SeedData implements CommandLineRunner
                            "ILuvM4th!",
                            "barnbarn@lambdaschool.local",
                            users);
-        u3.getUseremails()
-          .add(new Useremail(u3,
-                             "barnbarn@email.local"));
+//        u3.getUseremails()
+//          .add(new Useremail(u3,
+//                             "barnbarn@email.local"));
         userService.save(u3);
 
         users = new ArrayList<>();
@@ -116,28 +116,28 @@ public class SeedData implements CommandLineRunner
         // https://www.baeldung.com/java-faker
         // https://www.baeldung.com/regular-expressions-java
 
-        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en-US"),
-                                                                    new RandomService());
-        Faker nameFaker = new Faker(new Locale("en-US"));
-
-        for (int i = 0; i < 100; i++)
-        {
-            new User();
-            User fakeUser;
-
-            users = new ArrayList<>();
-            users.add(new UserRoles(new User(),
-                                    r2));
-            fakeUser = new User(nameFaker.name()
-                                         .username(),
-                                "password",
-                                nameFaker.internet()
-                                         .emailAddress(),
-                                users);
-            fakeUser.getUseremails()
-                    .add(new Useremail(fakeUser,
-                                       fakeValuesService.bothify("????##@gmail.com")));
-            userService.save(fakeUser);
-        }
+//        FakeValuesService fakeValuesService = new FakeValuesService(new Locale("en-US"),
+//                                                                    new RandomService());
+//        Faker nameFaker = new Faker(new Locale("en-US"));
+//
+//        for (int i = 0; i < 100; i++)
+//        {
+//            new User();
+//            User fakeUser;
+//
+//            users = new ArrayList<>();
+//            users.add(new UserRoles(new User(),
+//                                    r2));
+//            fakeUser = new User(nameFaker.name()
+//                                         .username(),
+//                                "password",
+//                                nameFaker.internet()
+//                                         .emailAddress(),
+//                                users);
+//            fakeUser.getUseremails()
+//                    .add(new Useremail(fakeUser,
+//                                       fakeValuesService.bothify("????##@gmail.com")));
+//            userService.save(fakeUser);
+//        }
     }
 }

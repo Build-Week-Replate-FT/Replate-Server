@@ -38,12 +38,12 @@ public class UserServiceImpl implements UserDetailsService,
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
-        User user = userrepos.findByUsername(username.toLowerCase());
+        User user = userrepos.findByEmail(username.toLowerCase());
         if (user == null)
         {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername().toLowerCase(),
+        return new org.springframework.security.core.userdetails.User(user.getEmail().toLowerCase(),
                                                                       user.getPassword(),
                                                                       user.getAuthority());
     }
@@ -55,10 +55,10 @@ public class UserServiceImpl implements UserDetailsService,
     }
 
     @Override
-    public List<User> findByNameContaining(String username,
+    public List<User> findByNameContaining(String email,
                                            Pageable pageable)
     {
-        return userrepos.findByUsernameContainingIgnoreCase(username.toLowerCase(),
+        return userrepos.findByEmailContainingIgnoreCase(email.toLowerCase(),
                                                             pageable);
     }
 
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserDetailsService,
     @Override
     public User findByName(String name)
     {
-        User uu = userrepos.findByUsername(name.toLowerCase());
+        User uu = userrepos.findByEmail(name.toLowerCase());
         if (uu == null)
         {
             throw new ResourceNotFoundException("User name " + name + " not found!");
@@ -96,15 +96,14 @@ public class UserServiceImpl implements UserDetailsService,
     @Override
     public User save(User user)
     {
-        if (userrepos.findByUsername(user.getUsername().toLowerCase()) != null)
+        if (userrepos.findByEmail(user.getEmail().toLowerCase()) != null)
         {
-            throw new ResourceFoundException(user.getUsername() + " is already taken!");
+            throw new ResourceFoundException(user.getEmail() + " is already taken!");
         }
 
         User newUser = new User();
-        newUser.setUsername(user.getUsername().toLowerCase());
+        newUser.setEmail(user.getEmail().toLowerCase());
         newUser.setPasswordNoEncrypt(user.getPassword());
-        newUser.setPrimaryemail(user.getPrimaryemail().toLowerCase());
 
         ArrayList<UserRoles> newRoles = new ArrayList<>();
         for (UserRoles ur : user.getUserroles())
@@ -118,12 +117,12 @@ public class UserServiceImpl implements UserDetailsService,
         }
         newUser.setUserroles(newRoles);
 
-        for (Useremail ue : user.getUseremails())
-        {
-            newUser.getUseremails()
-                   .add(new Useremail(newUser,
-                                      ue.getUseremail()));
-        }
+//        for (Useremail ue : user.getUseremails())
+//        {
+//            newUser.getUseremails()
+//                   .add(new Useremail(newUser,
+//                                      ue.getUseremail()));
+//        }
 
         return userrepos.save(newUser);
     }
@@ -137,25 +136,20 @@ public class UserServiceImpl implements UserDetailsService,
         Authentication authentication = SecurityContextHolder.getContext()
                                                              .getAuthentication();
 
-        User authenticatedUser = userrepos.findByUsername(authentication.getName());
+        User authenticatedUser = userrepos.findByEmail(authentication.getName());
 
         if (id == authenticatedUser.getUserid() || isAdmin)
         {
             User currentUser = findUserById(id);
 
-            if (user.getUsername() != null)
+            if (user.getEmail() != null)
             {
-                currentUser.setUsername(user.getUsername().toLowerCase());
+                currentUser.setEmail(user.getEmail().toLowerCase());
             }
 
             if (user.getPassword() != null)
             {
                 currentUser.setPasswordNoEncrypt(user.getPassword());
-            }
-
-            if (user.getPrimaryemail() != null)
-            {
-                currentUser.setPrimaryemail(user.getPrimaryemail().toLowerCase());
             }
 
             if (user.getUserroles()
@@ -164,16 +158,16 @@ public class UserServiceImpl implements UserDetailsService,
                 throw new ResourceFoundException("User Roles are not updated through User. See endpoint POST: users/user/{userid}/role/{roleid}");
             }
 
-            if (user.getUseremails()
-                    .size() > 0)
-            {
-                for (Useremail ue : user.getUseremails())
-                {
-                    currentUser.getUseremails()
-                               .add(new Useremail(currentUser,
-                                                  ue.getUseremail()));
-                }
-            }
+//            if (user.getUseremails()
+//                    .size() > 0)
+//            {
+//                for (Useremail ue : user.getUseremails())
+//                {
+//                    currentUser.getUseremails()
+//                               .add(new Useremail(currentUser,
+//                                                  ue.getUseremail()));
+//                }
+//            }
 
             return userrepos.save(currentUser);
         } else
