@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface UserRepository extends PagingAndSortingRepository<User, Long>
 {
-    User findByUsername(String username);
+    User findByEmail(String username);
 
-    List<User> findByUsernameContainingIgnoreCase(String name,
+    List<User> findByEmailContainingIgnoreCase(String email,
                                                   Pageable pageable);
 }

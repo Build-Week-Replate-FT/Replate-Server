@@ -76,6 +76,6 @@ public class Useremail extends Auditable
     @Override
     public String toString()
     {
-        return "Useremail{" + "useremailid=" + useremailid + ", useremail='" + useremail + '\'' + ", user=" + user.getUsername() + '}';
+        return "Useremail{" + "useremailid=" + useremailid + ", useremail='" + useremail + '\'' + ", user=" + user.getEmail() + '}';
     }
 }

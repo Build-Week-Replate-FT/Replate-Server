@@ -5,19 +5,9 @@ import com.lambdaschool.starthere.logging.Loggable;
 @Loggable
 public class UserMinimum
 {
-    private String username;
+    private String email;
     private String password;
-    private String primaryemail;
 
-    public String getUsername()
-    {
-        return username;
-    }
-
-    public void setUsername(String username)
-    {
-        this.username = username;
-    }
 
     public String getPassword()
     {
@@ -29,13 +19,13 @@ public class UserMinimum
         this.password = password;
     }
 
-    public String getPrimaryemail()
+    public String getEmail()
     {
-        return primaryemail;
+        return email;
     }
 
-    public void setPrimaryemail(String primaryemail)
+    public void setEmail(String email)
     {
-        this.primaryemail = primaryemail;
+        this.email = email;
     }
 }
