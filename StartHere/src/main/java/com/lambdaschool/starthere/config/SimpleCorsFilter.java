@@ -35,7 +35,7 @@ public class SimpleCorsFilter implements Filter
         response.setHeader("Access-Control-Allow-Headers",
                            "*");
         response.setHeader("Access-Control-Max-Age",
-                           "864400");
+                           "1200000");
 
         if (HttpMethod.OPTIONS.name()
                               .equalsIgnoreCase(((HttpServletRequest) req).getMethod()))
