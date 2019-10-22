@@ -2,7 +2,6 @@ package com.lambdaschool.starthere.controllers;
 
 import com.lambdaschool.starthere.logging.Loggable;
 import com.lambdaschool.starthere.models.User;
-import com.lambdaschool.starthere.models.UserMinimum;
 import com.lambdaschool.starthere.models.UserRoles;
 import com.lambdaschool.starthere.services.RoleService;
 import com.lambdaschool.starthere.services.UserService;
@@ -17,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
@@ -47,15 +47,15 @@ public class OpenController
     //     "primaryemail" : "home@local.house"
     // }
 
-    @PostMapping(value = "/createnewuser",
+    @PostMapping(value = "/createnewuser/{type}",
                  consumes = {"application/json"},
                  produces = {"application/json"})
     public ResponseEntity<?> addNewUser(HttpServletRequest httpServletRequest,
-                                        @RequestParam(defaultValue = "true")
+                                        @RequestParam(defaultValue = "false")
                                                 boolean getaccess,
                                         @Valid
                                         @RequestBody
-                                                UserMinimum newminuser) throws URISyntaxException
+                                                User user,@PathVariable String type) throws URISyntaxException
     {
         logger.trace(httpServletRequest.getMethod()
                                        .toUpperCase() + " " + httpServletRequest.getRequestURI() + " accessed");
@@ -63,14 +63,28 @@ public class OpenController
         // Create the user
         User newuser = new User();
 
-        newuser.setEmail(newminuser.getEmail());
-        newuser.setPassword(newminuser.getPassword());
-
+        newuser.setEmail(user.getEmail());
+        newuser.setPasswordNoEncrypt(user.getPassword());
+        newuser.setUserType(type);
         ArrayList<UserRoles> newRoles = new ArrayList<>();
-        newRoles.add(new UserRoles(newuser,
-                                   roleService.findByName("user")));
-        newuser.setUserroles(newRoles);
-
+        if (type.equals("business"))
+        {
+            newRoles.add(new UserRoles(newuser,
+                    roleService.findByName("business")));
+            newuser.setUserroles(newRoles);
+        } else if (type.equals("volunteer")) {
+            newRoles.add(new UserRoles(newuser,
+                    roleService.findByName("volunteer")));
+            newuser.setUserroles(newRoles);
+        } else {
+            throw new EntityNotFoundException("Wrong User Type");
+        }
+        newuser.setName(user.getName());
+        newuser.setAddress(user.getAddress());
+        newuser.setCity(user.getCity());
+        newuser.setState(user.getState());
+        newuser.setZip(user.getZip());
+        newuser.setWebsite(user.getWebsite());
         newuser = userService.save(newuser);
 
         // set the location header for the newly created resource - to another controller!
@@ -102,9 +116,9 @@ public class OpenController
             map.add("scope",
                     "read write trust");
             map.add("email",
-                    newminuser.getEmail());
+                    user.getEmail());
             map.add("password",
-                    newminuser.getPassword());
+                    user.getPassword());
 
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map,
                                                                                  headers);
