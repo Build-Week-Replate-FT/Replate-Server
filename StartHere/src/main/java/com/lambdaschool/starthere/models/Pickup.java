@@ -26,22 +26,22 @@ public class Pickup extends Auditable
     private String website;
 
     @ManyToOne
-    @JoinColumn(name = "userid",
+    @JoinColumn(name = "volunteerid",
             nullable = false)
     @JsonIgnoreProperties("volunteerpickups")
-    private User volunteer;
+    private Volunteer volunteer;
 
     @ManyToOne
-    @JoinColumn(name = "email",
+    @JoinColumn(name = "businessid",
             nullable = false)
     @JsonIgnoreProperties("businesspickups")
-    private User business;
+    private Business business;
 
     public Pickup()
     {
     }
 
-    public Pickup(String foodtype, int quantity, String quantityunit, Date postdate, String deliveryaddress, String deliverycity, String deliverystate, String zip, String website, User volunteer, User business)
+    public Pickup(String foodtype, int quantity, String quantityunit, Date postdate, String deliveryaddress, String deliverycity, String deliverystate, String zip, String website, Volunteer volunteer, Business business)
     {
         this.foodtype = foodtype;
         this.quantity = quantity;
@@ -156,22 +156,22 @@ public class Pickup extends Auditable
         this.website = website;
     }
 
-    public User getVolunteer()
+    public Volunteer getVolunteer()
     {
         return volunteer;
     }
 
-    public void setVolunteer(User volunteer)
+    public void setVolunteer(Volunteer volunteer)
     {
         this.volunteer = volunteer;
     }
 
-    public User getBusiness()
+    public Business getBusiness()
     {
         return business;
     }
 
-    public void setBusiness(User business)
+    public void setBusiness(Business business)
     {
         this.business = business;
     }

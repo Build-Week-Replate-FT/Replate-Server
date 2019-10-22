@@ -46,23 +46,11 @@ public class User extends Auditable
     private String zip;
     private String website;
 
-    @OneToMany(mappedBy = "volunteer",
-               cascade = CascadeType.ALL,
-               orphanRemoval = true)
-    @JsonIgnoreProperties("user")
-    private List<Pickup> volunteerpickups = new ArrayList<>();
-
-    @OneToMany(mappedBy = "business",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    @JsonIgnoreProperties("user")
-    private List<Pickup> businesspickups = new ArrayList<>();
-
     public User()
     {
     }
 
-    public User(String userType, @Email String email, String password, List<UserRoles> userroles, String name, String address, String city, String state, String zip, String website, List<Pickup> volunteerpickups, List<Pickup> businesspickups)
+    public User(String userType, @Email String email, String password, List<UserRoles> userroles, String name, String address, String city, String state, String zip, String website)
     {
         this.userType = userType;
         setEmail(email);
@@ -78,8 +66,6 @@ public class User extends Auditable
         this.state = state;
         this.zip = zip;
         this.website = website;
-        this.volunteerpickups=volunteerpickups;
-        this.businesspickups = businesspickups;
     }
 
     public User(String username,
@@ -141,26 +127,6 @@ public class User extends Auditable
     public void setUserroles(List<UserRoles> userroles)
     {
         this.userroles = userroles;
-    }
-
-    public List<Pickup> getVolunteerpickups()
-    {
-        return volunteerpickups;
-    }
-
-    public void setVolunteerpickups(List<Pickup> volunteerpickups)
-    {
-        this.volunteerpickups = volunteerpickups;
-    }
-
-    public List<Pickup> getBusinesspickups()
-    {
-        return businesspickups;
-    }
-
-    public void setBusinesspickups(List<Pickup> businesspickups)
-    {
-        this.businesspickups = businesspickups;
     }
 
     @JsonIgnore
@@ -264,8 +230,6 @@ public class User extends Auditable
                 ", state='" + state + '\'' +
                 ", zip='" + zip + '\'' +
                 ", website='" + website + '\'' +
-                ", volunteerpickups=" + volunteerpickups +
-                ", businesspickups=" + businesspickups +
                 '}';
     }
 }
