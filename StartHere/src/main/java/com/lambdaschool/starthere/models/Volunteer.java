@@ -19,7 +19,13 @@ import java.util.List;
 public class Volunteer extends Auditable
 {
     @Id
-    private long volunteerid;
+    @Column(name = "userid")
+    private long userid;
+
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private User user;
 
     @OneToMany(mappedBy = "volunteer",
             cascade = CascadeType.ALL,
@@ -27,29 +33,34 @@ public class Volunteer extends Auditable
     @JsonIgnoreProperties("user")
     private List<Pickup> volunteerpickups = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name = "volunteerid")
-    @JsonIgnore
-    User user;
-
     public Volunteer()
     {
     }
 
-    public Volunteer(long volunteerid, List<Pickup> volunteerpickups)
+    public Volunteer(User user, List<Pickup> volunteerpickups)
     {
-        this.volunteerid = volunteerid;
+        this.user = user;
         this.volunteerpickups = volunteerpickups;
     }
 
-    public long getVolunteerid()
+    public long getUserid()
     {
-        return volunteerid;
+        return userid;
     }
 
-    public void setVolunteerid(long volunteerid)
+    public void setUserid(long userid)
     {
-        this.volunteerid = volunteerid;
+        this.userid = userid;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
     }
 
     public List<Pickup> getVolunteerpickups()

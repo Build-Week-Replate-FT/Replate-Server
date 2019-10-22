@@ -16,6 +16,6 @@ public class PickupServiceImpl implements PickupService
     @Override
     public Pickup save(Pickup pickup)
     {
-        return null;
+        return pickupRepository.save(pickup);
     }
 }

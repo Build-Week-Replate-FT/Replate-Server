@@ -16,6 +16,6 @@ public class VolunteerServiceImpl implements VolunteerService
     @Override
     public Volunteer save(Volunteer volunteer)
     {
-        return null;
+        return volunteerRepository.save(volunteer);
     }
 }

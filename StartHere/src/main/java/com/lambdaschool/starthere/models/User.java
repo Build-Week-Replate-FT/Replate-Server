@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lambdaschool.starthere.logging.Loggable;
+import org.hibernate.query.criteria.internal.BasicPathUsageException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -21,6 +22,7 @@ public class User extends Auditable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "userid")
     private long userid;
 
     private String userType;
@@ -42,12 +44,12 @@ public class User extends Auditable
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JsonIgnore
-    private Volunteer volunteer;
+    private Business business;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JsonIgnore
-    private Business business;
+    private Volunteer volunteer;
 
     private String name;
     private String address;
@@ -78,6 +80,17 @@ public class User extends Auditable
         this.state = state;
         this.zip = zip;
         this.website = website;
+    }
+
+    public User(String userType, @Email String email, String password, List<UserRoles> userroles, String name)
+    {
+        this.userType = userType;
+        setEmail(email);
+        setPassword(password);
+        this.userroles = userroles;
+        this.volunteer = volunteer;
+        this.business = business;
+        this.name = name;
     }
 
     public Volunteer getVolunteer()
@@ -215,7 +228,7 @@ public class User extends Auditable
 
     public void setState(String state)
     {
-        state = state;
+        this.state = state;
     }
 
     public String getZip()

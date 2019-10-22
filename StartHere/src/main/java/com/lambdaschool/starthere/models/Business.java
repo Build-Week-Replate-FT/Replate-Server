@@ -3,6 +3,7 @@ package com.lambdaschool.starthere.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.lambdaschool.starthere.logging.Loggable;
+import com.lambdaschool.starthere.services.UserService;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,18 +15,20 @@ import java.util.List;
 public class Business
 {
     @Id
-    private long businessid;
+    @Column(name = "userid")
+    private long userid;
+
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private User user;
+
 
     @OneToMany(mappedBy = "business",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JsonIgnoreProperties("user")
     private List<Pickup> businesspickups = new ArrayList<>();
-
-    @OneToOne
-    @JoinColumn(name = "businessid")
-    @JsonIgnore
-    User user;
 
     public Business()
     {
@@ -37,14 +40,24 @@ public class Business
         this.user = user;
     }
 
-    public long getBusinessid()
+    public long getUserid()
     {
-        return businessid;
+        return userid;
     }
 
-    public void setBusinessid(long businessid)
+    public void setUserid(long userid)
     {
-        this.businessid = businessid;
+        this.userid = userid;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
     }
 
     public List<Pickup> getBusinesspickups()

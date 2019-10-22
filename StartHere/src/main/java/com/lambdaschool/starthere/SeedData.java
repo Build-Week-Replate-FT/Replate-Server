@@ -4,8 +4,7 @@ import com.github.javafaker.Faker;
 import com.github.javafaker.service.FakeValuesService;
 import com.github.javafaker.service.RandomService;
 import com.lambdaschool.starthere.models.*;
-import com.lambdaschool.starthere.services.RoleService;
-import com.lambdaschool.starthere.services.UserService;
+import com.lambdaschool.starthere.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -16,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-//@Transactional
-//@Component
+@Transactional
+@Component
 public class SeedData implements CommandLineRunner
 {
     @Autowired
@@ -26,13 +25,21 @@ public class SeedData implements CommandLineRunner
     @Autowired
     UserService userService;
 
+    @Autowired
+    BusinessService businessService;
+
+    @Autowired
+    VolunteerService  volunteerService;
+
+    @Autowired
+    PickupService pickupService;
 
     @Override
     public void run(String[] args) throws Exception
     {
         Role r1 = new Role("admin");
-        Role r2 = new Role("user");
-        Role r3 = new Role("data");
+        Role r2 = new Role("volunteer");
+        Role r3 = new Role("business");
 
         roleService.save(r1);
         roleService.save(r2);
@@ -67,26 +74,28 @@ public class SeedData implements CommandLineRunner
 
         u1=userService.save(u1);
         Business b1 = new Business(new ArrayList<Pickup>(),u1);
+        b1=businessService.save(b1);
 
-
-        Pickup p1 = new Pickup("Apples", 1, "Bushel", new Date(), "1 Johnny ln.", "San Francisco", "CA", "10999", null,null);
-//        Pickup p2 = new Pickup("Orange Juice", 3, "Quarts", new Date(), "1 Johnny ln.", "San Francisco", "CA", "10999", null,null);
-//        Pickup p3 = new Pickup("Steak", 2, "T-Bones", new Date(), "1 Johnny ln.", "San Francisco", "CA", "10999", null,null);
-
+        Pickup p1 = new Pickup("Apples", 1, "Bushel", new Date(), "1 Johnny ln.", "San Francisco", "CA", "10999", null,b1);
+        Pickup p2 = new Pickup("Orange Juice", 3, "Quarts", new Date(), "1 Johnny ln.", "San Francisco", "CA", "10999", null,b1);
+        Pickup p3 = new Pickup("Steak", 2, "T-Bones", new Date(), "1 Johnny ln.", "San Francisco", "CA", "10999", null,b1);
+        p1=pickupService.save(p1);
+        p2=pickupService.save(p2);
+        p3=pickupService.save(p3);
 
         User u2 = new User("volunteer","lucy@lambdaschool.local",
-                           "1234567",users,"Lucy VanPelt", "1 Football ln.", "Columbus", "OH", "86753", ""
-                           );
+                           "1234567",users,"Lucy VanPelt");
         u2=userService.save(u2);
-
+        Volunteer v1 = new Volunteer(u2,new ArrayList<Pickup>());
+        v1=volunteerService.save(v1);
+        p1.setVolunteer(v1);
 
         User u3 = new User("volunteer","linus@lambdaschool.local",
-                           "volunteer",users,"Linus VanPelt","1 Blanket rd","Columbus", "OH","86753",""
-                           );
-//        u3.getUseremails()
-//          .add(new Useremail(u3,
-//                             "barnbarn@email.local"));
+                           "volunteer",users,"Linus VanPelt");
         u3=userService.save(u3);
+        Volunteer v2 = new Volunteer(u3,new ArrayList<Pickup>());
+        v2=volunteerService.save(v2);
+        p2.setVolunteer(v2);
 
 //        users = new ArrayList<>();
 //        users.add(new UserRoles(new User(),
@@ -95,6 +104,9 @@ public class SeedData implements CommandLineRunner
 //                           "password",
 //                           "puttat@school.lambda",
 //                           users);
+        //        u4.getUseremails()
+//          .add(new Useremail(u4,
+//                             "barnbarn@email.local"));
 //        userService.save(u4);
 //
 //        users = new ArrayList<>();

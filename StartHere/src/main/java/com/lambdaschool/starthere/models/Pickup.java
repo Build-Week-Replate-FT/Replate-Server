@@ -25,8 +25,7 @@ public class Pickup extends Auditable
     private String zip;
 
     @ManyToOne
-    @JoinColumn(name = "volunteerid",
-            nullable = false)
+    @JoinColumn(name = "volunteerid")
     @JsonIgnoreProperties("volunteerpickups")
     private Volunteer volunteer;
 
