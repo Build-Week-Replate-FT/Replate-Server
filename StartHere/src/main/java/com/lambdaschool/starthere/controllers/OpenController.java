@@ -51,7 +51,7 @@ public class OpenController
                  consumes = {"application/json"},
                  produces = {"application/json"})
     public ResponseEntity<?> addNewUser(HttpServletRequest httpServletRequest,
-                                        @RequestParam(defaultValue = "true")
+                                        @RequestParam(defaultValue = "false")
                                                 boolean getaccess,
                                         @Valid
                                         @RequestBody
@@ -64,7 +64,7 @@ public class OpenController
         User newuser = new User();
 
         newuser.setEmail(user.getEmail());
-        newuser.setPassword(user.getPassword());
+        newuser.setPasswordNoEncrypt(user.getPassword());
         newuser.setUserType(type);
         ArrayList<UserRoles> newRoles = new ArrayList<>();
         if (type.equals("business"))
