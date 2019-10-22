@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Loggable
-@Service(value = "VolunteerService")
+@Service(value = "volunteerService")
 public class VolunteerServiceImpl implements VolunteerService
 {
     @Autowired
