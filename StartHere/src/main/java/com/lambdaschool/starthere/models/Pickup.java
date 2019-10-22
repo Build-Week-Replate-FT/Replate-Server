@@ -23,7 +23,6 @@ public class Pickup extends Auditable
     private String deliverycity;
     private String deliverystate;
     private String zip;
-    private String website;
 
     @ManyToOne
     @JoinColumn(name = "volunteerid",
@@ -41,7 +40,7 @@ public class Pickup extends Auditable
     {
     }
 
-    public Pickup(String foodtype, int quantity, String quantityunit, Date postdate, String deliveryaddress, String deliverycity, String deliverystate, String zip, String website, Volunteer volunteer, Business business)
+    public Pickup(String foodtype, int quantity, String quantityunit, Date postdate, String deliveryaddress, String deliverycity, String deliverystate, String zip, Volunteer volunteer, Business business)
     {
         this.foodtype = foodtype;
         this.quantity = quantity;
@@ -51,7 +50,6 @@ public class Pickup extends Auditable
         this.deliverycity = deliverycity;
         this.deliverystate = deliverystate;
         this.zip = zip;
-        this.website = website;
         this.volunteer = volunteer;
         this.business = business;
     }
@@ -144,16 +142,6 @@ public class Pickup extends Auditable
     public void setZip(String zip)
     {
         this.zip = zip;
-    }
-
-    public String getWebsite()
-    {
-        return website;
-    }
-
-    public void setWebsite(String website)
-    {
-        this.website = website;
     }
 
     public Volunteer getVolunteer()

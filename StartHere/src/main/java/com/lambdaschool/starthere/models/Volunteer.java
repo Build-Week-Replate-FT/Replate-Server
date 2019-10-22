@@ -27,6 +27,11 @@ public class Volunteer extends Auditable
     @JsonIgnoreProperties("user")
     private List<Pickup> volunteerpickups = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "volunteerid")
+    @JsonIgnore
+    User user;
+
     public Volunteer()
     {
     }

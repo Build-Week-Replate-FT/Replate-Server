@@ -39,12 +39,24 @@ public class User extends Auditable
     @JsonIgnoreProperties("user")
     private List<UserRoles> userroles = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonIgnore
+    private Volunteer volunteer;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonIgnore
+    private Business business;
+
     private String name;
     private String address;
     private String city;
     private String state;
     private String zip;
     private String website;
+
+
 
     public User()
     {
@@ -68,13 +80,24 @@ public class User extends Auditable
         this.website = website;
     }
 
-    public User(String username,
-                String password,
-                String primaryemail,
-                List<UserRoles> userRoles)
+    public Volunteer getVolunteer()
     {
+        return volunteer;
+    }
 
+    public void setVolunteer(Volunteer volunteer)
+    {
+        this.volunteer = volunteer;
+    }
 
+    public Business getBusiness()
+    {
+        return business;
+    }
+
+    public void setBusiness(Business business)
+    {
+        this.business = business;
     }
 
     public long getUserid()

@@ -1,5 +1,6 @@
 package com.lambdaschool.starthere.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.lambdaschool.starthere.logging.Loggable;
 
@@ -21,14 +22,19 @@ public class Business
     @JsonIgnoreProperties("user")
     private List<Pickup> businesspickups = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "businessid")
+    @JsonIgnore
+    User user;
+
     public Business()
     {
     }
 
-    public Business(long businessid, List<Pickup> businesspickups)
+    public Business( List<Pickup> businesspickups, User user)
     {
-        this.businessid = businessid;
         this.businesspickups = businesspickups;
+        this.user = user;
     }
 
     public long getBusinessid()
