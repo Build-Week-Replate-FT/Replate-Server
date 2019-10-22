@@ -23,25 +23,23 @@ public class Pickup extends Auditable
     private String deliverycity;
     private String deliverystate;
     private String zip;
-    private String website;
 
     @ManyToOne
-    @JoinColumn(name = "userid",
-            nullable = false)
+    @JoinColumn(name = "volunteerid")
     @JsonIgnoreProperties("volunteerpickups")
-    private User volunteer;
+    private Volunteer volunteer;
 
     @ManyToOne
-    @JoinColumn(name = "email",
+    @JoinColumn(name = "businessid",
             nullable = false)
     @JsonIgnoreProperties("businesspickups")
-    private User business;
+    private Business business;
 
     public Pickup()
     {
     }
 
-    public Pickup(String foodtype, int quantity, String quantityunit, Date postdate, String deliveryaddress, String deliverycity, String deliverystate, String zip, String website, User volunteer, User business)
+    public Pickup(String foodtype, int quantity, String quantityunit, Date postdate, String deliveryaddress, String deliverycity, String deliverystate, String zip, Volunteer volunteer, Business business)
     {
         this.foodtype = foodtype;
         this.quantity = quantity;
@@ -51,7 +49,6 @@ public class Pickup extends Auditable
         this.deliverycity = deliverycity;
         this.deliverystate = deliverystate;
         this.zip = zip;
-        this.website = website;
         this.volunteer = volunteer;
         this.business = business;
     }
@@ -146,32 +143,22 @@ public class Pickup extends Auditable
         this.zip = zip;
     }
 
-    public String getWebsite()
-    {
-        return website;
-    }
-
-    public void setWebsite(String website)
-    {
-        this.website = website;
-    }
-
-    public User getVolunteer()
+    public Volunteer getVolunteer()
     {
         return volunteer;
     }
 
-    public void setVolunteer(User volunteer)
+    public void setVolunteer(Volunteer volunteer)
     {
         this.volunteer = volunteer;
     }
 
-    public User getBusiness()
+    public Business getBusiness()
     {
         return business;
     }
 
-    public void setBusiness(User business)
+    public void setBusiness(Business business)
     {
         this.business = business;
     }

@@ -65,7 +65,6 @@ public class OpenController
 
         newuser.setEmail(newminuser.getEmail());
         newuser.setPassword(newminuser.getPassword());
-        newuser.setEmail(newminuser.getEmail());
 
         ArrayList<UserRoles> newRoles = new ArrayList<>();
         newRoles.add(new UserRoles(newuser,

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lambdaschool.starthere.logging.Loggable;
+import org.hibernate.query.criteria.internal.BasicPathUsageException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -21,6 +22,7 @@ public class User extends Auditable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "userid")
     private long userid;
 
     private String userType;
@@ -39,6 +41,16 @@ public class User extends Auditable
     @JsonIgnoreProperties("user")
     private List<UserRoles> userroles = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonIgnore
+    private Business business;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonIgnore
+    private Volunteer volunteer;
+
     private String name;
     private String address;
     private String city;
@@ -46,23 +58,13 @@ public class User extends Auditable
     private String zip;
     private String website;
 
-    @OneToMany(mappedBy = "volunteer",
-               cascade = CascadeType.ALL,
-               orphanRemoval = true)
-    @JsonIgnoreProperties("user")
-    private List<Pickup> volunteerpickups = new ArrayList<>();
 
-    @OneToMany(mappedBy = "business",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    @JsonIgnoreProperties("user")
-    private List<Pickup> businesspickups = new ArrayList<>();
 
     public User()
     {
     }
 
-    public User(String userType, @Email String email, String password, List<UserRoles> userroles, String name, String address, String city, String state, String zip, String website, List<Pickup> volunteerpickups, List<Pickup> businesspickups)
+    public User(String userType, @Email String email, String password, List<UserRoles> userroles, String name, String address, String city, String state, String zip, String website)
     {
         this.userType = userType;
         setEmail(email);
@@ -78,17 +80,37 @@ public class User extends Auditable
         this.state = state;
         this.zip = zip;
         this.website = website;
-        this.volunteerpickups=volunteerpickups;
-        this.businesspickups = businesspickups;
     }
 
-    public User(String username,
-                String password,
-                String primaryemail,
-                List<UserRoles> userRoles)
+    public User(String userType, @Email String email, String password, List<UserRoles> userroles, String name)
     {
+        this.userType = userType;
+        setEmail(email);
+        setPassword(password);
+        this.userroles = userroles;
+        this.volunteer = volunteer;
+        this.business = business;
+        this.name = name;
+    }
 
+    public Volunteer getVolunteer()
+    {
+        return volunteer;
+    }
 
+    public void setVolunteer(Volunteer volunteer)
+    {
+        this.volunteer = volunteer;
+    }
+
+    public Business getBusiness()
+    {
+        return business;
+    }
+
+    public void setBusiness(Business business)
+    {
+        this.business = business;
     }
 
     public long getUserid()
@@ -141,26 +163,6 @@ public class User extends Auditable
     public void setUserroles(List<UserRoles> userroles)
     {
         this.userroles = userroles;
-    }
-
-    public List<Pickup> getVolunteerpickups()
-    {
-        return volunteerpickups;
-    }
-
-    public void setVolunteerpickups(List<Pickup> volunteerpickups)
-    {
-        this.volunteerpickups = volunteerpickups;
-    }
-
-    public List<Pickup> getBusinesspickups()
-    {
-        return businesspickups;
-    }
-
-    public void setBusinesspickups(List<Pickup> businesspickups)
-    {
-        this.businesspickups = businesspickups;
     }
 
     @JsonIgnore
@@ -226,7 +228,7 @@ public class User extends Auditable
 
     public void setState(String state)
     {
-        state = state;
+        this.state = state;
     }
 
     public String getZip()
@@ -264,8 +266,6 @@ public class User extends Auditable
                 ", state='" + state + '\'' +
                 ", zip='" + zip + '\'' +
                 ", website='" + website + '\'' +
-                ", volunteerpickups=" + volunteerpickups +
-                ", businesspickups=" + businesspickups +
                 '}';
     }
 }
