@@ -65,17 +65,18 @@ public class OpenController
 
         newuser.setEmail(user.getEmail());
         newuser.setPasswordNoEncrypt(user.getPassword());
-        newuser.setUserType(type);
         ArrayList<UserRoles> newRoles = new ArrayList<>();
         if (type.equals("business"))
         {
             newRoles.add(new UserRoles(newuser,
                     roleService.findByName("business")));
             newuser.setUserroles(newRoles);
+            newuser.setUserType("business");
         } else if (type.equals("volunteer")) {
             newRoles.add(new UserRoles(newuser,
                     roleService.findByName("volunteer")));
             newuser.setUserroles(newRoles);
+            newuser.setUserType("volunteer");
         } else {
             throw new EntityNotFoundException("Wrong User Type");
         }

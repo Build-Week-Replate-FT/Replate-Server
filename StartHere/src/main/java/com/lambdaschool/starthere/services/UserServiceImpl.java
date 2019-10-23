@@ -34,6 +34,14 @@ public class UserServiceImpl implements UserDetailsService,
     @Autowired
     private RoleRepository rolerepos;
 
+    @Override
+    public List<User> finAllByUsertpe(Pageable pageable, String userType)
+    {
+        List<User> TypedUsers = userrepos.findAllByUserType(pageable,userType);
+
+        return TypedUsers;
+    }
+
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
