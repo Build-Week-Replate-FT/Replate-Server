@@ -234,4 +234,12 @@ public class UserServiceImpl implements UserDetailsService,
             throw new ResourceFoundException("Role and User Combination Already Exists");
         }
     }
+
+    @Override
+    public User findMe()
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authUser = userrepos.findByEmail(auth.getName());
+        return authUser;
+    }
 }

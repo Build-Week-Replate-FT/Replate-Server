@@ -14,4 +14,5 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long>
                                                   Pageable pageable);
 
     List<User> findAllByUserType(Pageable pageable, String userType);
+
 }

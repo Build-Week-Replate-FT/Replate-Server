@@ -141,11 +141,18 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.rest-assured/spring-mock-mvc -->
+        <!-- https://mvnrepository.com/artifact/io.rest-assured/spring-mock-mvc -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>spring-mock-mvc</artifactId>
-            <version>3.3.0</version>
+            <version>4.1.1</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.sun.xml.bind</groupId>
+                    <artifactId>jaxb-osgi</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->

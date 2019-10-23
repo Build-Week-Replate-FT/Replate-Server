@@ -32,6 +32,8 @@ public class BusinessController
     @Autowired
     UserService userService;
 
+    //VOLUNTEER LINKS
+
     @GetMapping(value = "/businesses",
             produces = {"application/json"})
     public ResponseEntity<?> listAllBusinesses(HttpServletRequest request,
@@ -46,10 +48,7 @@ public class BusinessController
 
 //        @GetMapping(value = "/pickups/{id}",
 //            produces = {"application/json"})
-//    public ResponseEntity<?> listAllUsers(HttpServletRequest request,
-//                                          @PageableDefault(page = 0,
-//                                                  size = 5)
-//                                                  Pageable pageable)
+//    public ResponseEntity<?> listPickupsByBusiness()
 //    {
 //
 //        List<Business> myBusinesses = businessService.findAll(pageable);
