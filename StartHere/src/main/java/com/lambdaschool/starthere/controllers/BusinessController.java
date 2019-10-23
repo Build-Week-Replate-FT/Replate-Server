@@ -1,9 +1,11 @@
 package com.lambdaschool.starthere.controllers;
 
 import com.lambdaschool.starthere.logging.Loggable;
-import com.lambdaschool.starthere.models.Pickup;
+import com.lambdaschool.starthere.models.Business;
 import com.lambdaschool.starthere.models.User;
-import com.lambdaschool.starthere.services.PickupService;
+import com.lambdaschool.starthere.services.BusinessService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -18,22 +20,26 @@ import java.util.List;
 
 @Loggable
 @RestController
-@RequestMapping("/pickups")
-public class PickupController
+@RequestMapping("/business")
+public class BusinessController
 {
-    @Autowired
-    PickupService pickupService;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @GetMapping(value = "/pickups",
+    @Autowired
+    BusinessService businessService;
+
+    @GetMapping(value = "/businesses",
             produces = {"application/json"})
     public ResponseEntity<?> listAllUsers(HttpServletRequest request,
                                           @PageableDefault(page = 0,
                                                   size = 5)
                                                   Pageable pageable)
     {
+        logger.trace(request.getMethod()
+                .toUpperCase() + " " + request.getRequestURI() + " accessed");
 
-        List<Pickup> myPickups = pickupService.findAll(pageable);
-        return new ResponseEntity<>(myPickups, HttpStatus.OK);
-
+        List<Business> myBusinesses = businessService.findAll(pageable);
+        return new ResponseEntity<>(myBusinesses,
+                HttpStatus.OK);
     }
 }

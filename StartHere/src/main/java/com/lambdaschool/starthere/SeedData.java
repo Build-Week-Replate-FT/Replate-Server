@@ -20,7 +20,7 @@ import java.util.Locale;
 public class SeedData implements CommandLineRunner
 {
     @Autowired
-    RoleService roleService;
+RoleService roleService;
 
     @Autowired
     UserService userService;
@@ -29,7 +29,7 @@ public class SeedData implements CommandLineRunner
     BusinessService businessService;
 
     @Autowired
-    VolunteerService  volunteerService;
+    VolunteerService volunteerService;
 
     @Autowired
     PickupService pickupService;
