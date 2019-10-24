@@ -10,6 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,7 +27,7 @@ public class PickupController
 {
     @Autowired
     PickupService pickupService;
-
+    @PreAuthorize("hasAuthority('ROLE_VOLUNTEER')")
     @GetMapping(value = "/pickups",
             produces = {"application/json"})
     public ResponseEntity<?> listAllUsers(HttpServletRequest request,
@@ -39,7 +40,7 @@ public class PickupController
         return new ResponseEntity<>(myPickups, HttpStatus.OK);
 
     }
-
+    @PreAuthorize("hasAuthority('ROLE_BUSINESS')")
     @PostMapping(value = "/add",
             consumes = {"application/json"},
             produces = {"application/json"})
@@ -63,7 +64,7 @@ public class PickupController
                 responseHeaders,
                 HttpStatus.CREATED);
     }
-
+    @PreAuthorize("hasAuthority('ROLE_BUSINESS')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> updatePickup(HttpServletRequest request,
                                         @RequestBody
@@ -76,6 +77,7 @@ public class PickupController
     }
 
     //POST /pickups/{pickupid}/{volunteerid}
+    @PreAuthorize("hasAuthority('ROLE_VOLUNTEER')")
     @PostMapping(value = "/{pickupid}/{volunteerid}",
             consumes = {"application/json"},
             produces = {"application/json"})
@@ -88,7 +90,7 @@ public class PickupController
 
         return new ResponseEntity<>(newPickup,responseHeaders,HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAuthority('ROLE_BUSINESS')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePickupById(HttpServletRequest request,
                                               @PathVariable
