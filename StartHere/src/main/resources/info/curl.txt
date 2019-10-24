@@ -1,10 +1,21 @@
 // admins access token = 56ab5075-de2e-43ba-a407-e52b8f267ac7
 // barnbarns access token = a87cdc74-7188-43d7-9c2e-f689841f083f
 
+// https://replate-server.herokuapp.com
+//Business Login
+curl -X POST --user "lambda-client:lambda-secret" -d "grant_type=password&username=business@lambdaschool.local&password=password" https://replate-server.herokuapp.com/login
+//Add User
+curl -X POST -H "Content-Type: application/json" -d "{ \"email\":\"snoop@peanuts.com\", \"password\":\"password\", \"name\":\"Snoopy Brown\" }" https://replate-server.herokuapp.com/createnewuser/volunteer
+//Buiness Add Pickup
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer 6d7ea3a3-cd8b-48e9-a603-db5f9f9d88ff" -d "{\"foodtype\": \"Hot Wings\",\"quantity\": 1,\"quantityunit\": \"Dozen\",\"deliveryaddress\": \"1 Johnny ln.\",\"deliverycity\": \"San Francisco\",\"deliverystate\": \"CA\",\"zip\": \"10999\",\"business\": {\"userid\": 4}}" https://replate-server.herokuapp.com/pickups/add
+
+
+
+
+
+
 // get admins access code
 curl -X POST --user "lambda-client:lambda-secret" -d "grant_type=password&username=admin&password=password" http://localhost:2019/login
-
-curl -X POST --user "lambda-client:lambda-secret" -d "grant_type=password&username=business@lambdaschool.local&password=password" https://replate-server.herokuapp.com/login
 
 // this works
 curl -X GET -H "Accept: application/json" -H "Authorization: Bearer 56ab5075-de2e-43ba-a407-e52b8f267ac7" http://localhost:2019/users/users
@@ -20,6 +31,9 @@ curl -X GET -H "Accept: application/json" -H "Authorization: Bearer 56ab5075-de2
 
 // add snoopy as a user
 curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer 56ab5075-de2e-43ba-a407-e52b8f267ac7" -d "{ \"username\":\"snoopy\", \"password\":\"password\", \"roleid\":"1" }" http://localhost:2019/users/user
+
+curl -X POST -H "Content-Type: application/json" -d "{ \"email\":\"snoop@peanuts.com\", \"password\":\"password\", \"name\":\"Snoopy Brown\" }" https://replate-server.herokuapp.com/createnewuser/volunteer
+
 
 // look up users and find snoopy's id
 curl -X GET -H "Accept: application/json" -H "Authorization: Bearer 56ab5075-de2e-43ba-a407-e52b8f267ac7" http://localhost:2019/users/users

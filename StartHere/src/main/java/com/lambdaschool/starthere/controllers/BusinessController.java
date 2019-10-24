@@ -32,8 +32,6 @@ public class BusinessController
     @Autowired
     UserService userService;
 
-    //VOLUNTEER LINKS
-
     @GetMapping(value = "/businesses",
             produces = {"application/json"})
     public ResponseEntity<?> listAllBusinesses(HttpServletRequest request,

@@ -1,6 +1,7 @@
 package com.lambdaschool.starthere.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -27,30 +28,31 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
         // http.anonymous().disable(); // since we allow anonymous users to access Swagger
         // and create a user account
         http.authorizeRequests()
-            .antMatchers("/",
-                         "/h2-console/**",
-                         "/swagger-resources/**",
-                         "/swagger-resource/**",
-                         "/swagger-ui.html",
-                         "/v2/api-docs",
-                         "/webjars/**",
-                         "/createnewuser",
-                    "/users/**","/createnewuser"
+            .antMatchers("/", "/createnewuser/**"
             )
             .permitAll()
             .antMatchers(
-                         "/useremails/**",
                          "/oauth/revoke-token",
-                         "/logout")
+                         "/logout",
+                    "/users/**","/pickups/**")
             .authenticated()
             // restrict application data...
             // .antMatchers("/books", "/authors").hasAnyRole("ADMIN", "USER", "DATA")
             // .antMatchers("/data/**").hasAnyRole("ADMIN", "DATA")
             //
             // restrict based on HttpMethod and endpoint
-            // .antMatchers(HttpMethod.GET, "/users/user/**").hasAnyRole("USER")
+//             .antMatchers(HttpMethod.GET, "/pickups/**")
+//             .antMatchers( "/pickups/**")
+//                .hasAnyRole("BUSINESS")
+//                .antMatchers(HttpMethod.GET, "/business/**","/pickups/**")
+                .antMatchers( "/business/**")
+                .hasAnyRole("VOLUNTEER")
             .antMatchers("/roles/**",
-                         "/actuator/**")
+                         "/actuator/**","/h2-console/**","/swagger-resources/**",
+                    "/swagger-resource/**",
+                    "/swagger-ui.html",
+                    "/v2/api-docs",
+                    "/webjars/**")
             .hasAnyRole("ADMIN")
             .and()
             .exceptionHandling()
