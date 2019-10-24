@@ -49,14 +49,14 @@ public class Swagger2Config
 
     private ApiInfo apiEndPointsInfo()
     {
-        return new ApiInfoBuilder().title("Java Spring Back End Starting Project")
-                                   .description("A starting application for developing Java Spring Back End Projects")
-                                   .contact(new Contact("John Mitchell",
-                                                        "http://www.lambdaschool.com",
-                                                        "john@lambdaschool.com"))
+        return new ApiInfoBuilder().title("Java Spring Back End")
+                                   .description("Build 4 - Replate Project")
+                                   .contact(new Contact("Jason Sonnichsen",
+                                                        "https://replate-server.herokuapp.com/",
+                                                        "harliquinn@gmail.com"))
                                    .license("MIT")
-                                   .licenseUrl("https://github.com/LambdaSchool/java-starthere/blob/master/LICENSE")
-                                   .version("1.0.0")
+                                   .licenseUrl("https://github.com/Build-Week-Replate-FT/Replate-Server/blob/master/LICENSE")
+                                   .version("0.1.0")
                                    .build();
     }
 }

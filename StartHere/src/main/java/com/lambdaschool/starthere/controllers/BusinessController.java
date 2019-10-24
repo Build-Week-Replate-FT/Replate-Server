@@ -4,6 +4,7 @@ import com.lambdaschool.starthere.logging.Loggable;
 import com.lambdaschool.starthere.models.Business;
 import com.lambdaschool.starthere.models.User;
 import com.lambdaschool.starthere.services.BusinessService;
+import com.lambdaschool.starthere.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +29,30 @@ public class BusinessController
     @Autowired
     BusinessService businessService;
 
+    @Autowired
+    UserService userService;
+
+    //VOLUNTEER LINKS
+
     @GetMapping(value = "/businesses",
             produces = {"application/json"})
-    public ResponseEntity<?> listAllUsers(HttpServletRequest request,
+    public ResponseEntity<?> listAllBusinesses(HttpServletRequest request,
                                           @PageableDefault(page = 0,
                                                   size = 5)
                                                   Pageable pageable)
     {
-        logger.trace(request.getMethod()
-                .toUpperCase() + " " + request.getRequestURI() + " accessed");
-
-        List<Business> myBusinesses = businessService.findAll(pageable);
+        List<User> myBusinesses = userService.finAllByUsertpe(pageable,"business");
         return new ResponseEntity<>(myBusinesses,
                 HttpStatus.OK);
     }
+
+//        @GetMapping(value = "/pickups/{id}",
+//            produces = {"application/json"})
+//    public ResponseEntity<?> listPickupsByBusiness()
+//    {
+//
+//        List<Business> myBusinesses = businessService.findAll(pageable);
+//        return new ResponseEntity<>(myBusinesses,
+//                HttpStatus.OK);
+//    }
 }

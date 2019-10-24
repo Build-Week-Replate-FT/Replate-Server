@@ -76,9 +76,9 @@ RoleService roleService;
         Business b1 = new Business(new ArrayList<Pickup>(),u1);
         b1=businessService.save(b1);
 
-        Pickup p1 = new Pickup("Apples", 1, "Bushel", new Date(), "1 Johnny ln.", "San Francisco", "CA", "10999", null,b1);
-        Pickup p2 = new Pickup("Orange Juice", 3, "Quarts", new Date(), "1 Johnny ln.", "San Francisco", "CA", "10999", null,b1);
-        Pickup p3 = new Pickup("Steak", 2, "T-Bones", new Date(), "1 Johnny ln.", "San Francisco", "CA", "10999", null,b1);
+        Pickup p1 = new Pickup("Apples", 1, "Bushel", "1 Johnny ln.", "San Francisco", "CA", "10999", null,b1);
+        Pickup p2 = new Pickup("Orange Juice", 3, "Quarts", "1 Johnny ln.", "San Francisco", "CA", "10999", null,b1);
+        Pickup p3 = new Pickup("Steak", 2, "T-Bones", "1 Johnny ln.", "San Francisco", "CA", "10999", null,b1);
         p1=pickupService.save(p1);
         p2=pickupService.save(p2);
         p3=pickupService.save(p3);

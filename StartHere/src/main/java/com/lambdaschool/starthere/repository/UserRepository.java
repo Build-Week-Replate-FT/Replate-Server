@@ -12,4 +12,7 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long>
 
     List<User> findByEmailContainingIgnoreCase(String email,
                                                   Pageable pageable);
+
+    List<User> findAllByUserType(Pageable pageable, String userType);
+
 }

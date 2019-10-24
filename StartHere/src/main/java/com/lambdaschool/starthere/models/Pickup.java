@@ -37,14 +37,15 @@ public class Pickup extends Auditable
 
     public Pickup()
     {
+        this.postdate = new Date();
     }
 
-    public Pickup(String foodtype, int quantity, String quantityunit, Date postdate, String deliveryaddress, String deliverycity, String deliverystate, String zip, Volunteer volunteer, Business business)
+    public Pickup(String foodtype, int quantity, String quantityunit, String deliveryaddress, String deliverycity, String deliverystate, String zip, Volunteer volunteer, Business business)
     {
         this.foodtype = foodtype;
         this.quantity = quantity;
         this.quantityunit = quantityunit;
-        this.postdate = postdate;
+        this.postdate = new Date();
         this.deliveryaddress = deliveryaddress;
         this.deliverycity = deliverycity;
         this.deliverystate = deliverystate;

@@ -34,6 +34,14 @@ public class UserServiceImpl implements UserDetailsService,
     @Autowired
     private RoleRepository rolerepos;
 
+    @Override
+    public List<User> finAllByUsertpe(Pageable pageable, String userType)
+    {
+        List<User> TypedUsers = userrepos.findAllByUserType(pageable,userType);
+
+        return TypedUsers;
+    }
+
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
@@ -225,5 +233,13 @@ public class UserServiceImpl implements UserDetailsService,
         {
             throw new ResourceFoundException("Role and User Combination Already Exists");
         }
+    }
+
+    @Override
+    public User findMe()
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User authUser = userrepos.findByEmail(auth.getName());
+        return authUser;
     }
 }
